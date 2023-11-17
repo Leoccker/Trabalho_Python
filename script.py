@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Importar o arquivo csv
-
+# teste
 arq = pd.read_csv("Crash_Data.csv")
 
 # Ocorrências por mês
