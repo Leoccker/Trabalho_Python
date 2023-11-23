@@ -1,8 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Importar o arquivo csv
-
 arq = pd.read_csv("Crash_Data.csv") # Importar o arquivo csv
 
 # Ocorrências por mês
