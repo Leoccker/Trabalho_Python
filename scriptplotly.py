@@ -69,7 +69,6 @@ def occurrence_age_month(): # Criar a função
     return age_month_count # Retornar a tabela cruzada idade/meses
 
 # Trazer as variáveis para o script principal
-
 month_count = occurrences_month() 
 age_count = occurrences_age()
 state_count = occurrence_state()
@@ -77,12 +76,10 @@ victim_count = occurrence_victims()
 age_month_count = occurrence_age_month()
 occurrence_count = occurrences_month().sum()
 
-# Gráficos
-
+# Gráfico de pizza
 labels_age = age_count.index
 values_age = age_count.values
 
-# Gráfico de pizza
 fig1 = go.Figure(data=[go.Pie(labels=labels_age, values=values_age)])
 
 fig1.update_layout(
@@ -129,6 +126,8 @@ fig3.update_layout(
     font=dict(size=18)
 )
 
+fig3.update_xaxes(tickformat=".0f")
+
 fig3.show()
 
 # Tabela de ocorrências por estado
@@ -138,6 +137,14 @@ cell_state = [state_count["State"], state_count["count"]]
 fig4 = go.Figure(data=[go.Table(
                                 header=dict(values=header_state, font=dict(size=20), height=50),
                                 cells=dict(values=cell_state, font=dict(size=20), height=50))])
+
+fig4.update_layout(
+    title_text="Ocorrências por Estado",  # Adicione esta linha
+    title_x=0.5,
+    title_font=dict(size=24),
+    autosize=True,
+    font=dict(size=18)
+)
 
 fig4.show()
 
@@ -159,3 +166,26 @@ fig5.update_layout(
 )
 
 fig5.show()
+
+fig = make_subplots(rows=2, cols=2, subplot_titles=("Gráfico de Pizza", "Gráfico de Linha", "Gráfico de Barras", "Gráfico de Calor"), specs=[[{'type': 'domain'}, {}], [{}, {}]])
+
+# Adiciona cada figura ao subplot
+fig.add_trace(go.Pie(labels=fig1.data[0]['labels'], values=fig1.data[0]['values'], showlegend=False), row=1, col=1)
+fig.add_trace(go.Scatter(x=fig2.data[0]['x'], y=fig2.data[0]['y'], mode='lines+markers', showlegend=False), row=1, col=2)
+fig.add_trace(go.Bar(x=fig3.data[0]['x'], y=fig3.data[0]['y'], orientation='h', showlegend=False), row=2, col=1)
+fig.add_trace(go.Heatmap(x=fig5.data[0]['x'], y=fig5.data[0]['y'], z=fig5.data[0]['z'], showscale=True, colorbar=dict(len=0.5, y=0.2)), row=2, col=2)
+
+# Adiciona uma legenda manualmente
+fig.update_layout(
+    annotations=[
+        dict(text='Gráfico de Pizza', x=0.225, y=1.02, font=dict(size=24), showarrow=False),
+        dict(text='Gráfico de Linha', x=0.775, y=1.02, font=dict(size=24), showarrow=False),
+        dict(text='Gráfico de Barras', x=0.225, y=0.4, font=dict(size=24), showarrow=False),
+        dict(text='Gráfico de Calor', x=0.775, y=0.4, font=dict(size=24), showarrow=False)
+    ],
+    font = dict(size=18)
+)
+
+fig.update_xaxes(tickformat=".0f", row=2, col=1)
+
+fig.show()
