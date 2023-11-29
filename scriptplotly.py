@@ -1,5 +1,5 @@
-import plotly.graph_objects as go
 import pandas as pd
+import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 arq = pd.read_csv("Crash_Data.csv") # Importar o arquivo csv
@@ -74,118 +74,114 @@ age_count = occurrences_age()
 state_count = occurrence_state()
 victim_count = occurrence_victims()
 age_month_count = occurrence_age_month()
-occurrence_count = occurrences_month().sum()
 
 # Gráfico de pizza
-labels_age = age_count.index
-values_age = age_count.values
+labels_age = age_count.index # Criar a lista de rótulos
+values_age = age_count.values # Criar a lista de valores
 
-fig1 = go.Figure(data=[go.Pie(labels=labels_age, values=values_age)])
+fig1 = go.Figure(data=[go.Pie(labels=labels_age, values=values_age)]) # Criar o gráfico de pizza
 
-fig1.update_layout(
-    title_text="Ocorrências por Faixa Etária",
-    title_x=0.5,
-    title_font=dict(size=24),
-    autosize=True,
-    font=dict(size=18)
+fig1.update_layout( # Atualizar o layout
+    title_text="Ocorrências por Faixa Etária", # Adicionar o título
+    title_x=0.5, # Centralizar o título
+    title_font=dict(size=24), # Tamanho do título
+    autosize=True, # Ajustar o tamanho do gráfico
+    font=dict(size=18) # Tamanho da fonte
 )
-
-fig1.show()
 
 # Gráfico de linha
-x_month = month_count.index
-y_month = month_count.values
+x_month = month_count.index # Criar a lista de meses
+y_month = month_count.values # Criar a lista de ocorrências
 
-fig2 = go.Figure(data=go.Scatter(x=x_month, y=y_month, mode='lines+markers'))
+fig2 = go.Figure(data=go.Scatter(x=x_month, y=y_month, mode='lines+markers')) # Criar o gráfico de linha
 
-fig2.update_layout(
-    title_text="Ocorrências por Mês",
-    title_x=0.5,
-    title_font=dict(size=24),
-    autosize=True,
-    xaxis_title="Mês",
-    yaxis_title="Ocorrências",
-    font=dict(size=18)
+fig2.update_layout( # Atualizar o layout
+    title_text="Ocorrências por Mês", # Adicionar o título
+    title_x=0.5, # Centralizar o título
+    title_font=dict(size=24), # Tamanho do título
+    autosize=True, # Ajustar o tamanho do gráfico
+    xaxis_title="Mês", # Adicionar o título do eixo x
+    yaxis_title="Ocorrências", # Adicionar o título do eixo y
+    font=dict(size=18) # Tamanho da fonte
 )
-
-fig2.show()
 
 # Gráfico de barras horizontais
-x_victim = victim_count.values
-y_victim = victim_count.index
+x_victim = victim_count.values # Criar a lista de ocorrências
+y_victim = victim_count.index # Criar a lista de tipos de vítima
 
-fig3 = go.Figure(data=[go.Bar(x=x_victim, y=y_victim, orientation='h')])
+fig3 = go.Figure(data=[go.Bar(x=x_victim, y=y_victim, orientation='h')]) # Criar o gráfico de barras horizontais
 
-fig3.update_layout(
-    title_text="Ocorrências por Tipo de Vítima",
-    title_x=0.5,
-    title_font=dict(size=24),
-    autosize=True,
-    xaxis_title="Ocorrências",
-    yaxis_title="Tipo de Vítima",
-    font=dict(size=18)
+fig3.update_layout( # Atualizar o layout
+    title_text="Ocorrências por Tipo de Vítima", # Adicionar o título
+    title_x=0.5, # Centralizar o título
+    title_font=dict(size=24), # Tamanho do título
+    autosize=True, # Ajustar o tamanho do gráfico
+    xaxis_title="Ocorrências", # Adicionar o título do eixo x
+    yaxis_title="Tipo de Vítima", # Adicionar o título do eixo y
+    font=dict(size=18) # Tamanho da fonte
 )
 
-fig3.update_xaxes(tickformat=".0f")
-
-fig3.show()
+fig3.update_xaxes(tickformat=".0f") # Formatar os números do eixo x
 
 # Tabela de ocorrências por estado
-header_state = ["Estado", "Ocorrências"]
-cell_state = [state_count["State"], state_count["count"]]
+header_state = ["Estado", "Ocorrências"] # Criar a lista de cabeçalhos
+cell_state = [state_count["State"], state_count["count"]] # Criar a lista de células
 
-fig4 = go.Figure(data=[go.Table(
-                                header=dict(values=header_state, font=dict(size=20), height=50),
-                                cells=dict(values=cell_state, font=dict(size=20), height=50))])
+fig4 = go.Figure(data=[go.Table( # Criar a tabela
+                                header=dict(values=header_state, font=dict(size=20), height=50), # Criar o cabeçalho
+                                cells=dict(values=cell_state, font=dict(size=20), height=50))]) # Criar as células
 
-fig4.update_layout(
-    title_text="Ocorrências por Estado",  # Adicione esta linha
-    title_x=0.5,
-    title_font=dict(size=24),
-    autosize=True,
-    font=dict(size=18)
+fig4.update_layout( # Atualizar o layout
+    title_text="Ocorrências por Estado", # Adicionar o título
+    title_x=0.5, # Centralizar o título
+    title_font=dict(size=24), # Tamanho do título
+    autosize=True, # Ajustar o tamanho da tabela
+    font=dict(size=18) # Tamanho da fonte
 )
-
-fig4.show()
 
 # Gráfico de calor
-x_age_month = age_month_count.columns
-y_age_month = age_month_count.index
-z_age_month = age_month_count.values
+x_age_month = age_month_count.columns # Criar a lista de faixas etárias
+y_age_month = age_month_count.index # Criar a lista de meses
+z_age_month = age_month_count.values # Criar a lista de ocorrências
 
-fig5 = go.Figure(data=go.Heatmap(x=x_age_month, y=y_age_month, z=z_age_month))
+fig5 = go.Figure(data=go.Heatmap(x=x_age_month, y=y_age_month, z=z_age_month)) # Criar o gráfico de calor
 
-fig5.update_layout(
-    title_text="Ocorrências por Mês e Faixa Etária",
-    title_x=0.5,
-    title_font=dict(size=24),
-    autosize=True,
-    xaxis_title="Mês",
-    yaxis_title="Faixa Etária",
-    font=dict(size=18)
+fig5.update_layout( # Atualizar o layout
+    title_text="Ocorrências por Mês e Faixa Etária", # Adicionar o título
+    title_x=0.5, # Centralizar o título
+    title_font=dict(size=24), # Tamanho do título
+    autosize=True, # Ajustar o tamanho do gráfico
+    xaxis_title="Mês", # Adicionar o título do eixo x
+    yaxis_title="Faixa Etária", # Adicionar o título do eixo y
+    font=dict(size=18) # Tamanho da fonte
 )
 
-fig5.show()
-
-fig = make_subplots(rows=2, cols=2, subplot_titles=("Gráfico de Pizza", "Gráfico de Linha", "Gráfico de Barras", "Gráfico de Calor"), specs=[[{'type': 'domain'}, {}], [{}, {}]])
+fig = make_subplots(rows=2, cols=2, subplot_titles=("Ocorrências por Faixa Etária",
+                                                    "Ocorrências por Mês",
+                                                    "Ocorrências por Tipo de Vítima",
+                                                    "Ocorrências por Mês e Faixa Etária"),
+                                                    specs=[[{'type': 'domain'}, {}],
+                                                           [{}, {}]]) # Criar o subplot
 
 # Adiciona cada figura ao subplot
-fig.add_trace(go.Pie(labels=fig1.data[0]['labels'], values=fig1.data[0]['values'], showlegend=False), row=1, col=1)
-fig.add_trace(go.Scatter(x=fig2.data[0]['x'], y=fig2.data[0]['y'], mode='lines+markers', showlegend=False), row=1, col=2)
-fig.add_trace(go.Bar(x=fig3.data[0]['x'], y=fig3.data[0]['y'], orientation='h', showlegend=False), row=2, col=1)
-fig.add_trace(go.Heatmap(x=fig5.data[0]['x'], y=fig5.data[0]['y'], z=fig5.data[0]['z'], showscale=True, colorbar=dict(len=0.5, y=0.2)), row=2, col=2)
+fig.add_trace(go.Pie(labels=fig1.data[0]['labels'],values=fig1.data[0]['values'],
+              showlegend=False), row=1, col=1) # Adiciona o gráfico de pizza ao subplot
 
-# Adiciona uma legenda manualmente
-fig.update_layout(
-    annotations=[
-        dict(text='Gráfico de Pizza', x=0.225, y=1.02, font=dict(size=24), showarrow=False),
-        dict(text='Gráfico de Linha', x=0.775, y=1.02, font=dict(size=24), showarrow=False),
-        dict(text='Gráfico de Barras', x=0.225, y=0.4, font=dict(size=24), showarrow=False),
-        dict(text='Gráfico de Calor', x=0.775, y=0.4, font=dict(size=24), showarrow=False)
-    ],
-    font = dict(size=18)
-)
+fig.add_trace(go.Scatter(x=fig2.data[0]['x'], y=fig2.data[0]['y'], mode='lines+markers',
+              showlegend=False), row=1, col=2) # Adiciona o gráfico de linha ao subplot
 
-fig.update_xaxes(tickformat=".0f", row=2, col=1)
+fig.add_trace(go.Bar(x=fig3.data[0]['x'], y=fig3.data[0]['y'], orientation='h',
+              showlegend=False), row=2, col=1) # Adiciona o gráfico de barras ao subplot
 
-fig.show()
+fig.add_trace(go.Heatmap(x=fig5.data[0]['x'], y=fig5.data[0]['y'], z=fig5.data[0]['z'],
+              showscale=True, colorbar=dict(len=0.5, y=0.2)),
+              row=2, col=2) # Adiciona o gráfico de calor ao subplot
+
+fig.update_xaxes(tickformat=".0f", row=2, col=1) # Formatar os números do eixo x do gráfico de barras
+
+fig.show() # Mostrar o subplot
+fig1.show() # Mostrar o gráfico de pizza
+fig2.show() # Mostrar o gráfico de linha
+fig3.show() # Mostrar o gráfico de barras
+fig4.show() # Mostrar a tabela
+fig5.show() # Mostrar o gráfico de calor
